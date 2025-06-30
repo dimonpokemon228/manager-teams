@@ -1,6 +1,7 @@
 package com.example.managerteams.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +9,8 @@ import lombok.Setter;
 @Table(name = "club")
 @Setter
 @Getter
-public class Club {
+@Builder
+public final class Club {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
