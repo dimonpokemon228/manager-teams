@@ -24,8 +24,8 @@ public class ClubController {
     public void deleteClub(){
         clubRepository.deleteAll();
     }
-//@DeleteMapping("/delete-byId")
-//    public void deleteClubById(){
-//        clubRepository.delete();
-//}
+@DeleteMapping("/delete-byId")
+    public void deleteClubById(@RequestParam Long id){
+        clubRepository.deleteById(id);
+}
 }

@@ -1,14 +1,18 @@
 package com.example.managerteams.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@Data
+@ToString
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Builder
 @Setter
 @Getter
 @Entity
 @Table(name = "player")
-public class Player {
+public final class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
