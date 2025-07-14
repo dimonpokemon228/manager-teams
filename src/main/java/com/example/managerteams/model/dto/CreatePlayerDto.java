@@ -11,11 +11,9 @@ import lombok.Builder;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public record CreatePlayerDto(
         @NotNull
-        @NotEmpty
         String clubName,
 
         @NotNull
-        @NotEmpty
         int countPlayers,
         int year,
 
@@ -28,15 +26,12 @@ public record CreatePlayerDto(
         String lastName,
 
         @NotNull
-        @NotEmpty
         int number,
 
         @NotNull
-        @NotEmpty
         int goals,
 
         @NotNull
-        @NotEmpty
         int assist,
 
         boolean isActive) {

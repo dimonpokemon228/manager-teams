@@ -1,19 +1,21 @@
 package com.example.managerteams.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
-@Table(name = "club")
+@Table(name = "club", uniqueConstraints = { @UniqueConstraint( columnNames = { "club_name"} ) } )
 @Setter
 @Getter
 @Builder
-public final class Club {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Club {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
     @Column(name = "club_name")
     private String clubName;
