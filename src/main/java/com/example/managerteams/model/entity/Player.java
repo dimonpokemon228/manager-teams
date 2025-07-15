@@ -3,15 +3,15 @@ package com.example.managerteams.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Data
+
 @ToString
-@AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
 @Setter
 @Getter
 @Entity
 @Table(name = "player")
+@AllArgsConstructor
 public final class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

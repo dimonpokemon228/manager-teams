@@ -2,6 +2,7 @@ package com.example.managerteams.service.impl;
 
 import com.example.managerteams.mapper.Mapper;
 import com.example.managerteams.model.dto.CreatePlayerDto;
+import com.example.managerteams.model.entity.Player;
 import com.example.managerteams.repository.ClubRepository;
 import com.example.managerteams.repository.PlayerRepository;
 import com.example.managerteams.service.CreatePlayer;
@@ -20,7 +21,7 @@ public class CreatePlayerImpl implements CreatePlayer {
     private final Mapper mapper;
 
     @Override
-   public CreatePlayerDto createPlayer( CreatePlayerDto createPlayerDto) {
+    public CreatePlayerDto createPlayer(CreatePlayerDto createPlayerDto) {
         var club = clubRepository.findClubByClubName(createPlayerDto.clubName());
         var player = mapper.mapPlayerFromDto(createPlayerDto, club.getId());
         club.setCountPlayers(club.getCountPlayers() + 1);

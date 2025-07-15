@@ -12,8 +12,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class PlayerController {
-   @Autowired
-    private PlayerRepository playerRepository;
+    private final PlayerRepository playerRepository;
     @GetMapping
     public String getString() {
         return "this is a Player";
@@ -25,5 +24,9 @@ public class PlayerController {
      @DeleteMapping("/delete-all")
      public void deletePlayer(){
         playerRepository.deleteAll();
+     }
+     @GetMapping("/find-by-first-name")
+    public Player findByFirstName(@RequestParam String firstName){
+       return playerRepository.findPlayerByFirstName(firstName);
      }
 }
