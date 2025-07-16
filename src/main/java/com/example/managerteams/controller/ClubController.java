@@ -13,8 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class ClubController {
-    @Autowired
-    private ClubRepository clubRepository;
+    private final ClubRepository clubRepository;
     @GetMapping
     public String getString(){
     return "this is a Club";
@@ -38,6 +37,10 @@ public class ClubController {
 @GetMapping("/findById")
     public Club findClubById(@RequestParam Long id){
         return clubRepository.findById(id).get();
+}
+@GetMapping("/find-by-club-name")
+    public Club findClubByClubName(@RequestParam String clubName){
+        return clubRepository.findClubByClubName(clubName);
 }
 
 }

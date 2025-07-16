@@ -1,6 +1,8 @@
 package com.example.managerteams.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 
@@ -32,8 +34,9 @@ public final class Player {
 
     private int assist;
 
+    private int age;
+
     @Column(name = "is_Active")
     private boolean isActive;
-
 
 }

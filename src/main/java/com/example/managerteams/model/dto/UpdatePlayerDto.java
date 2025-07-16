@@ -9,31 +9,23 @@ import lombok.Builder;
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public record CreatePlayerDto(
-        @NotNull
-        String clubName,
+public record UpdatePlayerDto(
 
         @NotNull
+        Long playerId,
+
         Integer age,
 
-        @NotNull
-        @NotEmpty
         String firstName,
 
-        @NotNull
-        @NotEmpty
         String lastName,
 
-        @NotNull
         Integer number,
 
-        @NotNull
         Integer goals,
 
-        @NotNull
         Integer assist,
 
-        Boolean isActive
-) {
+        Boolean isActive) {
 
 }

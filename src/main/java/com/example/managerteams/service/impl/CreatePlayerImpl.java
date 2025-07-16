@@ -21,12 +21,12 @@ public class CreatePlayerImpl implements CreatePlayer {
     private final Mapper mapper;
 
     @Override
-    public CreatePlayerDto createPlayer(CreatePlayerDto createPlayerDto) {
+    public Player createPlayer(CreatePlayerDto createPlayerDto) {
         var club = clubRepository.findClubByClubName(createPlayerDto.clubName());
         var player = mapper.mapPlayerFromDto(createPlayerDto, club.getId());
         club.setCountPlayers(club.getCountPlayers() + 1);
         playerRepository.save(player);
         clubRepository.save(club);
-        return createPlayerDto;
+        return player;
     }
 }
