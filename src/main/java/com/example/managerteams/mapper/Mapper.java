@@ -2,16 +2,18 @@ package com.example.managerteams.mapper;
 
 import com.example.managerteams.model.dto.CreateClubDto;
 import com.example.managerteams.model.dto.CreatePlayerDto;
+import com.example.managerteams.model.dto.TransferPlayerDto;
 import com.example.managerteams.model.dto.UpdatePlayerDto;
 import com.example.managerteams.model.entity.Club;
 import com.example.managerteams.model.entity.Player;
+import com.example.managerteams.model.entity.TransferHistory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class Mapper {
-    public Player mapPlayerFromDto(CreatePlayerDto createPlayerDto, Long clubId){
+    public Player mapPlayerFromDto(CreatePlayerDto createPlayerDto, Long clubId) {
         return Player.builder()
                 .firstName(createPlayerDto.firstName())
                 .lastName(createPlayerDto.lastName())
@@ -23,7 +25,8 @@ public class Mapper {
                 .age(createPlayerDto.age())
                 .build();
     }
-    public Club mapClubFromDto(CreateClubDto createClubDto){
+
+    public Club mapClubFromDto(CreateClubDto createClubDto) {
         return Club.builder()
                 .clubName(createClubDto.clubName())
                 .year(createClubDto.year())
@@ -31,7 +34,7 @@ public class Mapper {
                 build();
     }
 
-    public CreatePlayerDto mapCreatePlayerDto(Player player, Club club){
+    public CreatePlayerDto mapCreatePlayerDto(Player player, Club club) {
         return CreatePlayerDto.builder()
                 .firstName(player.getFirstName())
                 .lastName(player.getLastName())
@@ -42,17 +45,30 @@ public class Mapper {
                 .age(player.getAge())
                 .build();
     }
-    public Player mapPlayerFromUpdateDto(UpdatePlayerDto updatePlayerDto, Player player){
+
+    public Player mapPlayerFromUpdateDto(UpdatePlayerDto updatePlayerDto, Player player) {
         return Player.builder()
                 .id(player.getId())
                 .firstName(updatePlayerDto.firstName() == null ? player.getFirstName() : updatePlayerDto.firstName())
                 .lastName(updatePlayerDto.lastName() == null ? player.getLastName() : updatePlayerDto.lastName())
-                .age(updatePlayerDto.age() == null ? player.getAge() : updatePlayerDto.age() )
+                .age(updatePlayerDto.age() == null ? player.getAge() : updatePlayerDto.age())
                 .assist(updatePlayerDto.assist() == null ? player.getAssist() : updatePlayerDto.assist())
                 .number(updatePlayerDto.number() == null ? player.getNumber() : updatePlayerDto.number())
                 .goals(updatePlayerDto.goals() == null ? player.getGoals() : updatePlayerDto.goals())
-                .isActive(updatePlayerDto.isActive() == null? player.isActive(): updatePlayerDto.isActive())
+                .isActive(updatePlayerDto.isActive() == null ? player.isActive() : updatePlayerDto.isActive())
                 .clubId(player.getClubId())
                 .build();
     }
+
+    public TransferPlayerDto mapTransferPlayerDto(TransferHistory transferHistory) {
+        return TransferPlayerDto.builder()
+                .playerId(transferHistory.getPlayerId())
+                .lastName(transferHistory.getPlayerLastName())
+                .lastClubName(transferHistory.getLastClubName())
+                .newClubName(transferHistory.getNewClubName())
+                .transferPrice(transferHistory.getPrice())
+                .build();
+    }
+
+
 }
