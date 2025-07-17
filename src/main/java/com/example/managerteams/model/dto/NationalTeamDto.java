@@ -9,16 +9,15 @@ import lombok.Builder;
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public record CreateClubDto(
+public record NationalTeamDto(
 
+        @NotNull
         @NotEmpty
-        @NotNull
-        String clubName,
-
-        Integer countPlayers,
+        String nationalTeamName,
 
         @NotNull
-        Integer year
+        Integer countPlayers
+
 
 ) {
 }

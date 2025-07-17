@@ -36,6 +36,11 @@ public final class Player {
 
     private int age;
 
+    private String position;
+
+    @Column(name = "national_team_id")
+    private Long nationalTeamId;
+
     @Column(name = "is_Active")
     private boolean isActive;
 

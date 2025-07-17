@@ -1,19 +1,18 @@
 package com.example.managerteams.service.impl;
 
 import com.example.managerteams.mapper.Mapper;
-import com.example.managerteams.model.dto.CreatePlayerDto;
-import com.example.managerteams.model.dto.TransferPlayerDto;
-import com.example.managerteams.model.dto.UpdatePlayerDto;
+import com.example.managerteams.model.dto.*;
+import com.example.managerteams.model.entity.Club;
+import com.example.managerteams.model.entity.NationalTeam;
 import com.example.managerteams.model.entity.Player;
 import com.example.managerteams.model.entity.TransferHistory;
 import com.example.managerteams.repository.ClubRepository;
+import com.example.managerteams.repository.NationalTeamRepository;
 import com.example.managerteams.repository.PlayerRepository;
 import com.example.managerteams.repository.TransferHistoryRepository;
 import com.example.managerteams.service.ManagerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -28,6 +27,8 @@ public class ManagerServiceImpl implements ManagerService {
 
     private final TransferHistoryRepository transferHistoryRepository;
 
+    private final NationalTeamRepository nationalTeamRepository;
+
     @Override
     public void deleteAllPlayersAndClubs() {
         playerRepository.deleteAll();
@@ -35,10 +36,10 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public List<CreatePlayerDto> findAllPlayers() {
+    public List<PlayerDto> findAllPlayers() {
         var players = playerRepository.findAll();
         return players.stream()
-                .map(player -> mapper.mapCreatePlayerDto(player, clubRepository.findClubById(player.getClubId())))
+                .map(player -> mapper.mapCreatePlayerDto(player, clubRepository.findClubById(player.getClubId()), nationalTeamRepository.findNationalTeamById(player.getNationalTeamId())))
                 .toList();
     }
 
@@ -78,5 +79,43 @@ public class ManagerServiceImpl implements ManagerService {
         return transferHistories.stream()
                 .map(mapper::mapTransferPlayerDto)
                 .toList();
+    }
+
+    @Override
+    public Club saveClub(ClubDto clubDto) {
+        return clubRepository.save(mapper.mapClubFromDto(clubDto));
+    }
+
+    @Override
+    public NationalTeam saveNationalTeam(NationalTeamDto createNationalTeamDto) {
+       return nationalTeamRepository.save(mapper.mapNationalTeamFromDto(createNationalTeamDto));
+    }
+
+    public Player findPlayerByClubId(Long clubId) {
+        return playerRepository.findPlayerByClubId(clubId);
+    }
+
+    @Override
+    public Player findPlayerByNationalTeamId(Long nationalTeamId) {
+        return playerRepository.findPlayerByNationalTeamId(nationalTeamId);
+    }
+
+    @Override
+    public Player createPlayer(PlayerDto playerDto) {
+        var club = clubRepository.findClubByClubName(playerDto.clubName());
+        var nation = nationalTeamRepository.findNationalTeamByNationalTeamName(playerDto.nationalTeamName());
+        var player = mapper.mapPlayerFromDto(playerDto, club.getId(), nation.getId());
+        club.setCountPlayers(club.getCountPlayers() + 1);
+        nation.setCountPlayers(nation.getCountPlayers() + 1);
+        nationalTeamRepository.save(nation);
+        playerRepository.save(player);
+        clubRepository.save(club);
+        return player;
+    }
+
+    @Override
+    public List <Player> findPlayersByPosition(String position) {
+        return playerRepository.findAll();
+
     }
 }

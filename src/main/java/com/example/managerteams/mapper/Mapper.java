@@ -1,10 +1,8 @@
 package com.example.managerteams.mapper;
 
-import com.example.managerteams.model.dto.CreateClubDto;
-import com.example.managerteams.model.dto.CreatePlayerDto;
-import com.example.managerteams.model.dto.TransferPlayerDto;
-import com.example.managerteams.model.dto.UpdatePlayerDto;
+import com.example.managerteams.model.dto.*;
 import com.example.managerteams.model.entity.Club;
+import com.example.managerteams.model.entity.NationalTeam;
 import com.example.managerteams.model.entity.Player;
 import com.example.managerteams.model.entity.TransferHistory;
 import lombok.RequiredArgsConstructor;
@@ -13,29 +11,31 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class Mapper {
-    public Player mapPlayerFromDto(CreatePlayerDto createPlayerDto, Long clubId) {
+    public Player mapPlayerFromDto(PlayerDto playerDto, Long clubId, Long nationalTeamId) {
         return Player.builder()
-                .firstName(createPlayerDto.firstName())
-                .lastName(createPlayerDto.lastName())
-                .number(createPlayerDto.number())
-                .goals(createPlayerDto.goals())
-                .assist(createPlayerDto.assist())
-                .isActive(createPlayerDto.isActive())
+                .firstName(playerDto.firstName())
+                .lastName(playerDto.lastName())
+                .number(playerDto.number())
+                .goals(playerDto.goals())
+                .assist(playerDto.assist())
+                .isActive(playerDto.isActive())
                 .clubId(clubId)
-                .age(createPlayerDto.age())
+                .age(playerDto.age())
+                .position(playerDto.position())
+                .nationalTeamId(nationalTeamId)
                 .build();
     }
 
-    public Club mapClubFromDto(CreateClubDto createClubDto) {
+    public Club mapClubFromDto(ClubDto clubDto) {
         return Club.builder()
-                .clubName(createClubDto.clubName())
-                .year(createClubDto.year())
-                .countPlayers(createClubDto.countPlayers()).
+                .clubName(clubDto.clubName())
+                .year(clubDto.year())
+                .countPlayers(clubDto.countPlayers()).
                 build();
     }
 
-    public CreatePlayerDto mapCreatePlayerDto(Player player, Club club) {
-        return CreatePlayerDto.builder()
+    public PlayerDto mapCreatePlayerDto(Player player, Club club, NationalTeam nationalTeam) {
+        return PlayerDto.builder()
                 .firstName(player.getFirstName())
                 .lastName(player.getLastName())
                 .goals(player.getGoals())
@@ -43,6 +43,8 @@ public class Mapper {
                 .number(player.getNumber())
                 .clubName(club.getClubName())
                 .age(player.getAge())
+                .position(player.getPosition())
+                .nationalTeamName(nationalTeam.getNationalTeamName())
                 .build();
     }
 
@@ -53,6 +55,7 @@ public class Mapper {
                 .lastName(updatePlayerDto.lastName() == null ? player.getLastName() : updatePlayerDto.lastName())
                 .age(updatePlayerDto.age() == null ? player.getAge() : updatePlayerDto.age())
                 .assist(updatePlayerDto.assist() == null ? player.getAssist() : updatePlayerDto.assist())
+                .position(updatePlayerDto.position() == null ? player.getPosition() : updatePlayerDto.position())
                 .number(updatePlayerDto.number() == null ? player.getNumber() : updatePlayerDto.number())
                 .goals(updatePlayerDto.goals() == null ? player.getGoals() : updatePlayerDto.goals())
                 .isActive(updatePlayerDto.isActive() == null ? player.isActive() : updatePlayerDto.isActive())
@@ -70,5 +73,16 @@ public class Mapper {
                 .build();
     }
 
-
+    public NationalTeamDto mapCreateNationalTeamDto(NationalTeam nationalTeam){
+        return NationalTeamDto.builder()
+                .nationalTeamName(nationalTeam.getNationalTeamName())
+                .countPlayers(nationalTeam.getCountPlayers())
+                .build();
+    }
+    public NationalTeam mapNationalTeamFromDto(NationalTeamDto createNationalTeamDto) {
+        return NationalTeam.builder()
+                .nationalTeamName(createNationalTeamDto.nationalTeamName())
+                .countPlayers(createNationalTeamDto.countPlayers())
+                .build();
+    }
 }
