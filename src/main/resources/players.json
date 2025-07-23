@@ -1,0 +1,38 @@
+[
+  {
+    "clubName": "Dortmund",
+    "age": 38,
+    "firstName": "Cristiano",
+    "lastName": "Ronaldo",
+    "number": 7,
+    "goals": 45,
+    "assist": 21,
+    "position": "Striker",
+    "nationalTeamName": "Portugal",
+    "isActive": true
+  },
+  {
+    "clubName": "Atletico",
+    "age": 32,
+    "firstName": "Jan",
+    "lastName": "Oblak",
+    "number": 13,
+    "goals": 0,
+    "assist": 2,
+    "position": "Goalkeeper",
+    "nationalTeamName": "Russia",
+    "isActive": true
+  },
+  {
+    "clubName": "Dortmund",
+    "age": 23,
+    "firstName": "Julian",
+    "lastName": "Brandt",
+    "number": 19,
+    "goals": 23,
+    "assist": 11,
+    "position": "Midfielder",
+    "nationalTeamName": "Germany",
+    "isActive": true
+  }
+]

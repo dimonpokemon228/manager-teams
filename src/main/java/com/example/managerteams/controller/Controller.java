@@ -1,15 +1,16 @@
 package com.example.managerteams.controller;
 
-import com.example.managerteams.mapper.Mapper;
 import com.example.managerteams.model.dto.*;
 import com.example.managerteams.model.entity.Club;
 import com.example.managerteams.model.entity.NationalTeam;
 import com.example.managerteams.model.entity.Player;
-import com.example.managerteams.repository.PlayerRepository;
 import com.example.managerteams.service.CreateClub;
 import com.example.managerteams.service.CreatePlayer;
 import com.example.managerteams.service.ManagerService;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +24,7 @@ public class Controller {
     private final CreatePlayer createPlayerImpl;
     private final ManagerService managerServiceImpl;
     private final CreateClub createClubImpl;
-    private final Mapper mapper;
-    private final PlayerRepository playerRepository;
+    private final Logger logger = LogManager.getLogger(Controller.class);
 
     @PostMapping("/save-player")
     public Player saveClubAndPlayer(@RequestBody @Validated PlayerDto playerDto){
@@ -33,12 +33,17 @@ public class Controller {
 
     @DeleteMapping("/delete-all-players-and-club")
     public void deleteAllPlayersAndClubs(){
+        logger.info("Start to delete all players and clubs");
         managerServiceImpl.deleteAllPlayersAndClubs();
+        logger.info("All players and clubs have been deleted");
     }
 
     @GetMapping("/find-all")
     public List<PlayerDto> findAll(){
-        return managerServiceImpl.findAllPlayers();
+        logger.warn("Start to find all players and clubs");
+        var players =  managerServiceImpl.findAllPlayers();
+        logger.error("Complete to find all players and clubs: {}", players);
+        return players;
     }
 
     @PostMapping("/update-player-info")
@@ -48,7 +53,10 @@ public class Controller {
 
     @PostMapping("/save-club")
     public Club saveClub(@RequestBody @Validated ClubDto clubDto){
-        return managerServiceImpl.saveClub(clubDto);
+        logger.info("Get club for save: {}", clubDto);
+        var clubSave = managerServiceImpl.saveClub(clubDto);
+        logger.info("Save club: {}", clubSave);
+        return clubSave;
     }
 
     @PostMapping("/transfer-player")
@@ -78,6 +86,16 @@ public class Controller {
 
     @GetMapping("/find-players-by-position")
     public List <Player> findPlayersByPosition(@RequestParam String position){
-        return playerRepository.findPlayersByPosition(position);
+        return managerServiceImpl.findPlayersByPosition(position);
+    }
+
+    @GetMapping("/top-3-goleadors")
+    public List <Player> findTop3ByOrderByGoalsDesc(){
+        return managerServiceImpl.findTop3ByOrderByGoalsDesc();
+    }
+
+    @PostMapping("/save-players")
+    public List <Player> savePlayers(@RequestBody @Validated List <PlayerDto> players){
+        return managerServiceImpl.savePlayers(players);
     }
 }

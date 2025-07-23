@@ -30,4 +30,7 @@ public interface ManagerService {
 
      List <Player> findPlayersByPosition(String position);
 
+     List <Player> findTop3ByOrderByGoalsDesc();
+
+     List <Player> savePlayers(List <PlayerDto> players);
 }

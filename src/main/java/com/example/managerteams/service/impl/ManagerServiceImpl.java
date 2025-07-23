@@ -12,9 +12,13 @@ import com.example.managerteams.repository.PlayerRepository;
 import com.example.managerteams.repository.TransferHistoryRepository;
 import com.example.managerteams.service.ManagerService;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +33,8 @@ public class ManagerServiceImpl implements ManagerService {
 
     private final NationalTeamRepository nationalTeamRepository;
 
+    private final Logger logger = LogManager.getLogger(ManagerServiceImpl.class);
+
     @Override
     public void deleteAllPlayersAndClubs() {
         playerRepository.deleteAll();
@@ -38,6 +44,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public List<PlayerDto> findAllPlayers() {
         var players = playerRepository.findAll();
+        logger.info("Find all players: {}", players);
         return players.stream()
                 .map(player -> mapper.mapCreatePlayerDto(player, clubRepository.findClubById(player.getClubId()), nationalTeamRepository.findNationalTeamById(player.getNationalTeamId())))
                 .toList();
@@ -118,4 +125,31 @@ public class ManagerServiceImpl implements ManagerService {
         return playerRepository.findAll();
 
     }
+
+    @Override
+    public List<Player> findTop3ByOrderByGoalsDesc() {
+        return playerRepository.findTop3ByOrderByGoalsDesc();
+    }
+
+    @Override
+    public List<Player> savePlayers(List<PlayerDto> players) {
+        Map <String, Club> hashClubMap = new HashMap<>();
+        Map <String, NationalTeam> hashNationalTeamMap = new HashMap<>();
+        var nationalTeamsNames = players.stream()
+                .map(PlayerDto::nationalTeamName )
+                .distinct()
+                .toList();
+        var clubNames = players.stream()
+                .map(PlayerDto::clubName)
+                .distinct()
+                .toList();
+        var nationalTeamNames = nationalTeamsNames.stream().map(nationalTeamsName ->
+                hashNationalTeamMap.put(nationalTeamsName, nationalTeamRepository.findNationalTeamByNationalTeamName(nationalTeamsName))).toList();
+        var clubs =  clubNames.stream().map(clubName -> hashClubMap.put(clubName, clubRepository.findClubByClubName(clubName))).toList();
+        return playerRepository.saveAll(players.stream()
+                .map(player -> mapper.mapPlayerFromDto(player, clubRepository.findClubByClubName(player.clubName()).getId(),
+                        nationalTeamRepository.findNationalTeamByNationalTeamName(player.nationalTeamName()).getId()))
+                .toList());
+    }
+
 }

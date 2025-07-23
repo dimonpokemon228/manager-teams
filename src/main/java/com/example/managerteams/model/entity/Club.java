@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Club {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
