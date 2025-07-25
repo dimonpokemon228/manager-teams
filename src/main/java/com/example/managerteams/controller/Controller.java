@@ -40,9 +40,9 @@ public class Controller {
 
     @GetMapping("/find-all")
     public List<PlayerDto> findAll(){
-        logger.warn("Start to find all players and clubs");
+        logger.info("Start to find all players and clubs");
         var players =  managerServiceImpl.findAllPlayers();
-        logger.error("Complete to find all players and clubs: {}", players);
+        logger.info("Complete to find all players and clubs: {}", players);
         return players;
     }
 

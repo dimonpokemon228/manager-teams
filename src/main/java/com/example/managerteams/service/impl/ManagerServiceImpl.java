@@ -45,9 +45,19 @@ public class ManagerServiceImpl implements ManagerService {
     public List<PlayerDto> findAllPlayers() {
         var players = playerRepository.findAll();
         logger.info("Find all players: {}", players);
+        test(players);
         return players.stream()
                 .map(player -> mapper.mapCreatePlayerDto(player, clubRepository.findClubById(player.getClubId()), nationalTeamRepository.findNationalTeamById(player.getNationalTeamId())))
                 .toList();
+    }
+
+    private void test(List<Player> players) {
+       var player = players.stream()
+                .map(Player::getClubId)
+               .distinct()
+               .toList();
+       logger.info(player.getClass());
+       logger.info(player);
     }
 
     @Override
