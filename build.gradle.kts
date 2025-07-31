@@ -29,6 +29,9 @@ dependencies {
     compileOnly ("org.projectlombok:lombok")
     annotationProcessor ("org.projectlombok:lombok")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
+    implementation("junit:junit:4.13.2")
+    implementation("org.mockito:mockito-core:5.18.0")
+    implementation("org.testcontainers:junit-jupiter:1.21.3")
 }
 configurations {
     all {
