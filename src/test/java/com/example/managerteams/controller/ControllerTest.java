@@ -26,14 +26,6 @@ class ControllerTest {
     @Mock
     ManagerServiceImpl  managerService;
     @Mock
-    PlayerRepository playerRepository;
-    @Mock
-    ClubRepository clubRepository;
-    @Mock
-    TransferHistory transferHistory;
-    @Mock
-    TransferPlayerDto transferPlayerDto;
-    @Mock
     Mapper mapper;
     @InjectMocks
     Controller controller;

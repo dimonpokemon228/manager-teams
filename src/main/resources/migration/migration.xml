@@ -1,0 +1,12 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- Включаем все миграции -->
+    <include file="migration/create-club-table.xml"/>
+    <include file="migration/create-national-team-table.xml"/>
+    <include file="migration/create-player-table.xml"/>
+    <include file="migration/create-transfer-history-table.xml"/>
+</databaseChangeLog>

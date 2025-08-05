@@ -33,4 +33,7 @@ public interface ManagerService {
      List <Player> findTop3ByOrderByGoalsDesc();
 
      List <Player> savePlayers(List <PlayerDto> players);
+
+     Player findPlayerById(Long playerId);
+
 }

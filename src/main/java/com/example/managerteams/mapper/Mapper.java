@@ -66,7 +66,6 @@ public class Mapper {
     public TransferPlayerDto mapTransferPlayerDto(TransferHistory transferHistory) {
         return TransferPlayerDto.builder()
                 .playerId(transferHistory.getPlayerId())
-                .lastName(transferHistory.getPlayerLastName())
                 .lastClubName(transferHistory.getLastClubName())
                 .newClubName(transferHistory.getNewClubName())
                 .transferPrice(transferHistory.getPrice())

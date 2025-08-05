@@ -68,6 +68,12 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public TransferPlayerDto transferPlayer(TransferPlayerDto transferPlayerDto) {
+        if (!playerRepository.existsById(transferPlayerDto.playerId())) {
+            System.out.println("No such player");
+        }
+        else if (!clubRepository.existsClubByClubName(transferPlayerDto.newClubName())){
+            System.out.println("No such club");
+        }
         var player = playerRepository.findPlayerById(transferPlayerDto.playerId());
         var lastClub = clubRepository.findClubByClubName(transferPlayerDto.lastClubName());
         var newClub = clubRepository.findClubByClubName(transferPlayerDto.newClubName());
@@ -90,6 +96,7 @@ public class ManagerServiceImpl implements ManagerService {
 
         return transferPlayerDto;
     }
+
 
     public List<TransferPlayerDto> getPlayerTransferHistory(Long playerId) {
         var transferHistories = transferHistoryRepository.findTransferHistoriesByPlayerId(playerId);
@@ -160,6 +167,11 @@ public class ManagerServiceImpl implements ManagerService {
                 .map(player -> mapper.mapPlayerFromDto(player, clubRepository.findClubByClubName(player.clubName()).getId(),
                         nationalTeamRepository.findNationalTeamByNationalTeamName(player.nationalTeamName()).getId()))
                 .toList());
+    }
+
+    @Override
+    public Player findPlayerById(Long playerId) {
+        return playerRepository.findPlayerById(playerId);
     }
 
 }

@@ -4,6 +4,7 @@ import com.example.managerteams.model.dto.PlayerDto;
 import com.example.managerteams.model.dto.TransferPlayerDto;
 import com.example.managerteams.model.entity.Club;
 import com.example.managerteams.model.entity.Player;
+import com.example.managerteams.model.entity.TransferHistory;
 import com.example.managerteams.repository.ClubRepository;
 import com.example.managerteams.repository.PlayerRepository;
 import com.example.managerteams.repository.TransferHistoryRepository;
@@ -19,6 +20,8 @@ import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -28,10 +31,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
 public class ManagerServiceTest {
 
-    @Mock
+    @InjectMocks
      ManagerServiceImpl managerService;
     @Mock
      PlayerRepository playerRepository;
@@ -39,15 +41,13 @@ public class ManagerServiceTest {
      ClubRepository clubRepository;
     @Mock
      TransferHistoryRepository  transferHistoryRepository;
-//    @Mock
-//    Player player;
-
+    @Mock
+    TransferHistory transferHistory;
 
     @Test
     public void transferPlayerTest(){
        var trans = TransferPlayerDto.builder()
                .playerId(1L)
-               .lastName("lastNameTest")
                .lastClubName("lustClubNameTest")
                .newClubName("newClubNameTest")
                .transferPrice(1000L)
@@ -67,18 +67,14 @@ public class ManagerServiceTest {
        when(playerRepository.findPlayerById(1L)).thenReturn(player);
        when(clubRepository.findClubByClubName("lustClubNameTest")).thenReturn(lastClub);
        when(clubRepository.findClubByClubName("newClubNameTest")).thenReturn(newClub);
-       when (managerService.transferPlayer(trans)).thenReturn(trans);
-       player.setClubId(newClub.getId());
-       lastClub.setCountPlayers(lastClub.getCountPlayers() - 1);
-       newClub.setCountPlayers(newClub.getCountPlayers() + 1);
        when(playerRepository.save(player)).thenReturn(player);
        when(clubRepository.save(lastClub)).thenReturn(lastClub);
        when(clubRepository.save(newClub)).thenReturn(newClub);
-       when(transferHistoryRepository.save(any())).thenReturn(any());
             managerService.transferPlayer(trans);
             assertEquals(newClub.getId(), player.getClubId());
             assertEquals(4, lastClub.getCountPlayers());
             assertEquals(3, newClub.getCountPlayers());
 
     }
+
 }

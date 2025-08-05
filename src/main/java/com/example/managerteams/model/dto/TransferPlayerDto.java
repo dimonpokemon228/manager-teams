@@ -13,7 +13,7 @@ public record TransferPlayerDto(
         @NotNull
         Long playerId,
 
-        String lastName,
+
 
         @NotNull
         @NotEmpty

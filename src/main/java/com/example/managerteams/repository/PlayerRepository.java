@@ -1,6 +1,5 @@
 package com.example.managerteams.repository;
 
-import com.example.managerteams.model.dto.PlayerDto;
 import com.example.managerteams.model.entity.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
 

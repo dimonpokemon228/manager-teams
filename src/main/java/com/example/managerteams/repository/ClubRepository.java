@@ -7,6 +7,8 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
     Club findClubById(Long clubId);
 
     Club findClubByClubName(String clubName);
+
+    boolean existsClubByClubName(String clubName);
 }
 
 

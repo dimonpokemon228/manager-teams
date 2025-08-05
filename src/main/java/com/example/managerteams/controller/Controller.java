@@ -1,5 +1,6 @@
 package com.example.managerteams.controller;
 
+import com.example.managerteams.exeptions.NoSuchPlayerException;
 import com.example.managerteams.model.dto.*;
 import com.example.managerteams.model.entity.Club;
 import com.example.managerteams.model.entity.NationalTeam;
@@ -10,9 +11,11 @@ import com.example.managerteams.service.ManagerService;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -97,5 +100,15 @@ public class Controller {
     @PostMapping("/save-players")
     public List <Player> savePlayers(@RequestBody @Validated List <PlayerDto> players){
         return managerServiceImpl.savePlayers(players);
+    }
+    @GetMapping("/find-player-by-id")
+    public Player findPlayerById(@RequestParam Long playerId) {
+        try {
+            return managerServiceImpl.findPlayerById(playerId);
+        }
+        catch (NoSuchPlayerException e){
+       throw new NoSuchPlayerException(HttpStatus.NO_CONTENT, e.getMessage());
+
+        }
     }
 }
