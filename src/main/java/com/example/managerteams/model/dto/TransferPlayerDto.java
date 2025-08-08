@@ -13,8 +13,6 @@ public record TransferPlayerDto(
         @NotNull
         Long playerId,
 
-
-
         @NotNull
         @NotEmpty
         String lastClubName,

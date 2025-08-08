@@ -33,6 +33,8 @@ dependencies {
     implementation("org.testcontainers:junit-jupiter:1.21.3")
 //    implementation("org.liquibase:liquibase-core:4.33.0")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    // https://mvnrepository.com/artifact/org.testcontainers/testcontainers
+    testImplementation("org.testcontainers:testcontainers:1.21.3")
 }
 configurations {
     all {
