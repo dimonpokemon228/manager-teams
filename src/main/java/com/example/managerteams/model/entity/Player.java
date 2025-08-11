@@ -25,6 +25,9 @@ public final class Player {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "club_name")
+    private String clubName;
+
     @Column(name = "club_id")
     private long clubId;
 

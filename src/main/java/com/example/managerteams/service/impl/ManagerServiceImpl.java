@@ -79,6 +79,7 @@ public class ManagerServiceImpl implements ManagerService {
         var newClub = clubRepository.findClubByClubName(transferPlayerDto.newClubName());
 
         player.setClubId(newClub.getId());
+        player.setClubName(newClub.getClubName());
         playerRepository.save(player);
         lastClub.setCountPlayers(lastClub.getCountPlayers() - 1);
         newClub.setCountPlayers(newClub.getCountPlayers() + 1);
@@ -128,7 +129,7 @@ public class ManagerServiceImpl implements ManagerService {
     public Player createPlayer(PlayerDto playerDto) {
         var club = clubRepository.findClubByClubName(playerDto.clubName());
         var nation = nationalTeamRepository.findNationalTeamByNationalTeamName(playerDto.nationalTeamName());
-        var player = mapper.mapPlayerFromDto(playerDto, club.getId(), nation.getId());
+        var player = mapper.mapPlayerFromDto(playerDto,  club , nation.getId());
         club.setCountPlayers(club.getCountPlayers() + 1);
         nation.setCountPlayers(nation.getCountPlayers() + 1);
         nationalTeamRepository.save(nation);
@@ -148,26 +149,26 @@ public class ManagerServiceImpl implements ManagerService {
         return playerRepository.findTop3ByOrderByGoalsDesc();
     }
 
-    @Override
-    public List<Player> savePlayers(List<PlayerDto> players) {
-        Map <String, Club> hashClubMap = new HashMap<>();
-        Map <String, NationalTeam> hashNationalTeamMap = new HashMap<>();
-        var nationalTeamsNames = players.stream()
-                .map(PlayerDto::nationalTeamName )
-                .distinct()
-                .toList();
-        var clubNames = players.stream()
-                .map(PlayerDto::clubName)
-                .distinct()
-                .toList();
-        var nationalTeamNames = nationalTeamsNames.stream().map(nationalTeamsName ->
-                hashNationalTeamMap.put(nationalTeamsName, nationalTeamRepository.findNationalTeamByNationalTeamName(nationalTeamsName))).toList();
-        var clubs =  clubNames.stream().map(clubName -> hashClubMap.put(clubName, clubRepository.findClubByClubName(clubName))).toList();
-        return playerRepository.saveAll(players.stream()
-                .map(player -> mapper.mapPlayerFromDto(player, clubRepository.findClubByClubName(player.clubName()).getId(),
-                        nationalTeamRepository.findNationalTeamByNationalTeamName(player.nationalTeamName()).getId()))
-                .toList());
-    }
+//    @Override
+//    public List<Player> savePlayers(List<PlayerDto> players) {
+//        Map <String, Club> hashClubMap = new HashMap<>();
+//        Map <String, NationalTeam> hashNationalTeamMap = new HashMap<>();
+//        var nationalTeamsNames = players.stream()
+//                .map(PlayerDto::nationalTeamName )
+//                .distinct()
+//                .toList();
+//        var clubNames = players.stream()
+//                .map(PlayerDto::clubName)
+//                .distinct()
+//                .toList();
+//        var nationalTeamNames = nationalTeamsNames.stream().map(nationalTeamsName ->
+//                hashNationalTeamMap.put(nationalTeamsName, nationalTeamRepository.findNationalTeamByNationalTeamName(nationalTeamsName))).toList();
+//        var clubs =  clubNames.stream().map(clubName -> hashClubMap.put(clubName, clubRepository.findClubByClubName(clubName))).toList();
+//        return playerRepository.saveAll(players.stream()
+//                .map(player -> mapper.mapPlayerFromDto(player, clubRepository.findClubByClubName(player.clubName()).getId(),
+//                        nationalTeamRepository.findNationalTeamByNationalTeamName(player.nationalTeamName()).getId()))
+//                .toList());
+//    }
 
     @Override
     public Player findPlayerById(Long playerId) {

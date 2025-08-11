@@ -2,7 +2,9 @@ package com.example.managerteams.repository;
 
 import com.example.managerteams.model.entity.NationalTeam;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface NationalTeamRepository extends JpaRepository<NationalTeam,Long> {
     NationalTeam findNationalTeamByNationalTeamName (String nationalTeamName);
 

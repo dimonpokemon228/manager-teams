@@ -97,10 +97,10 @@ public class Controller {
         return managerServiceImpl.findTop3ByOrderByGoalsDesc();
     }
 
-    @PostMapping("/save-players")
-    public List <Player> savePlayers(@RequestBody @Validated List <PlayerDto> players){
-        return managerServiceImpl.savePlayers(players);
-    }
+//    @PostMapping("/save-players")
+//    public List <Player> savePlayers(@RequestBody @Validated List <PlayerDto> players){
+//        return managerServiceImpl.savePlayers(players);
+//    }
     @GetMapping("/find-player-by-id")
     public Player findPlayerById(@RequestParam Long playerId) {
         try {
