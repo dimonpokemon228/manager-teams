@@ -129,7 +129,7 @@ public class ManagerServiceImpl implements ManagerService {
     public Player createPlayer(PlayerDto playerDto) {
         var club = clubRepository.findClubByClubName(playerDto.clubName());
         var nation = nationalTeamRepository.findNationalTeamByNationalTeamName(playerDto.nationalTeamName());
-        var player = mapper.mapPlayerFromDto(playerDto,  club , nation.getId());
+        var player = mapper.mapPlayerFromDto(playerDto,  club , nation);
         club.setCountPlayers(club.getCountPlayers() + 1);
         nation.setCountPlayers(nation.getCountPlayers() + 1);
         nationalTeamRepository.save(nation);

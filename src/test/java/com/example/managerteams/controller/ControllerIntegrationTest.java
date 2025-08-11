@@ -4,8 +4,10 @@ import com.example.managerteams.model.dto.ClubDto;
 import com.example.managerteams.model.dto.PlayerDto;
 import com.example.managerteams.model.dto.TransferPlayerDto;
 import com.example.managerteams.model.entity.Club;
+import com.example.managerteams.model.entity.NationalTeam;
 import com.example.managerteams.model.entity.Player;
 import com.example.managerteams.repository.ClubRepository;
+import com.example.managerteams.repository.NationalTeamRepository;
 import com.example.managerteams.repository.PlayerRepository;
 import com.example.managerteams.repository.TransferHistoryRepository;
 import com.example.managerteams.service.impl.ManagerServiceImpl;
@@ -47,6 +49,8 @@ public class ControllerIntegrationTest {
     PlayerRepository playerRepository;
     @Autowired
     TransferHistoryRepository transferHistoryRepository;
+    @Autowired
+    NationalTeamRepository nationalTeamRepository;
 
     @BeforeAll
     static void beforeAll() {
@@ -108,4 +112,38 @@ ClubDto clubDto = new ClubDto("ATM", 23, 1900);
         assertEquals(transferHistoryRepository.findTransferHistoriesByPlayerId(1L).get(0).getPlayerId(),1  );
 
     }
+    @Test
+    void savePlayer() throws Exception{
+        var player = PlayerDto.builder()
+                .age(18)
+                .assist(12)
+                .goals(23)
+                .clubName("ATM")
+                .firstName("Dimon")
+                .lastName("Pokemon")
+                .isActive(true)
+                .number(16)
+                .nationalTeamName("Russia")
+                .position("Striker")
+                .build();
+        var nation = NationalTeam.builder()
+                .countPlayers(23)
+                .nationalTeamName("Russia")
+                .build();
+        var club = Club.builder()
+                .clubName("ATM")
+                .countPlayers(3)
+                .year(1900)
+                .build();
+        clubRepository.save(club);
+        nationalTeamRepository.save(nation);
+        managerServiceImpl.createPlayer(player);
+        assertEquals(playerRepository.findPlayerByFirstName("Dimon").getFirstName(), "Dimon");
+        assertEquals(clubRepository.findClubByClubName("ATM").getCountPlayers(), 4);
+        assertEquals(nationalTeamRepository.findNationalTeamByNationalTeamName("Russia").getCountPlayers(), 24);
+    }
+
+
+
+
 }

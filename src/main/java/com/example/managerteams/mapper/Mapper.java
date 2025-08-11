@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class Mapper {
-    public Player mapPlayerFromDto(PlayerDto playerDto, Club club, Long nationalTeamId) {
+    public Player mapPlayerFromDto(PlayerDto playerDto, Club club, NationalTeam nationalTeam) {
         return Player.builder()
                 .firstName(playerDto.firstName())
                 .lastName(playerDto.lastName())
@@ -22,7 +22,7 @@ public class Mapper {
                 .clubId(club.getId())
                 .age(playerDto.age())
                 .position(playerDto.position())
-                .nationalTeamId(nationalTeamId)
+                .nationalTeamId(nationalTeam.getId())
                 .clubName(club.getClubName())
                 .build();
     }
