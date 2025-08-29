@@ -7,10 +7,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
-@RequiredArgsConstructor
+
 @Service
 public class CreateClubImpl implements CreateClub {
 
-    private final ClubRepository clubRepository;
-    private final Mapper mapper;
+    private  ClubRepository clubRepository;
+
+    public CreateClubImpl(ClubRepository clubRepository) {
+        this.clubRepository = clubRepository;
+    }
+//    private final Mapper mapper;
 }

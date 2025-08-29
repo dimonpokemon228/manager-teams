@@ -5,21 +5,22 @@ import com.example.managerteams.model.dto.*;
 import com.example.managerteams.model.entity.Club;
 import com.example.managerteams.model.entity.NationalTeam;
 import com.example.managerteams.model.entity.Player;
+import com.example.managerteams.model.entity.Users;
 import com.example.managerteams.service.CreateClub;
 import com.example.managerteams.service.CreatePlayer;
 import com.example.managerteams.service.ManagerService;
+import com.example.managerteams.service.impl.MyUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@RequestMapping("/")
+@RequestMapping("/controller")
 @RestController
 @RequiredArgsConstructor
 public class Controller {
@@ -28,6 +29,7 @@ public class Controller {
     private final ManagerService managerServiceImpl;
     private final CreateClub createClubImpl;
     private final Logger logger = LogManager.getLogger(Controller.class);
+    private final MyUserDetailsServiceImpl userDetailsService;
 
     @PostMapping("/save-player")
     public Player saveClubAndPlayer(@RequestBody @Validated PlayerDto playerDto){
@@ -68,6 +70,7 @@ public class Controller {
     }
 
     @GetMapping("/player-transfer-history/{playerId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<TransferPlayerDto> getPlayerTransferHistory(@PathVariable("playerId") Long playerId){
         return managerServiceImpl.getPlayerTransferHistory(playerId);
     }
@@ -111,4 +114,12 @@ public class Controller {
 
         }
     }
+
+    @PostMapping("/new-user")
+    public String addUser(@RequestBody Users user){
+    userDetailsService.addUser(user);
+    return "User is saved";
+    }
+
+
 }
