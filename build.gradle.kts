@@ -35,6 +35,8 @@ dependencies {
 //    implementation("org.liquibase:liquibase-core:4.33.0")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.testcontainers:testcontainers:1.21.3")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    testImplementation("org.springframework.security:spring-security-test")
 }
 configurations {
     all {

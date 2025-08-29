@@ -1,10 +1,7 @@
 package com.example.managerteams.mapper;
 
 import com.example.managerteams.model.dto.*;
-import com.example.managerteams.model.entity.Club;
-import com.example.managerteams.model.entity.NationalTeam;
-import com.example.managerteams.model.entity.Player;
-import com.example.managerteams.model.entity.TransferHistory;
+import com.example.managerteams.model.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -84,5 +81,19 @@ public class Mapper {
                 .nationalTeamName(createNationalTeamDto.nationalTeamName())
                 .countPlayers(createNationalTeamDto.countPlayers())
                 .build();
+    }
+    public UserDto mapCreateUserDto (Users user){
+       return UserDto.builder().name(user.getName())
+                .role(user.getRole())
+               .password(user.getPassword())
+               .build();
+    }
+    public Users mapUserFromDto(UserDto userDto){
+        return Users.builder()
+                .name(userDto.name())
+                .role(userDto.role())
+                .password(userDto.password())
+                .build();
+
     }
 }
